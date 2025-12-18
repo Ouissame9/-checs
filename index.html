@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Maître - L'Art des Échecs</title>
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f0f; /* Noir profond */
+            color: #f0f0f0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- VARIABLES --- */
+        :root {
+            --primary-gold: #d4af37;
+            --hover-gold: #b5952f;
+            --dark-bg: #1a1a1a;
+            --glass-bg: rgba(26, 26, 26, 0.7);
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--primary-gold); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        /* Canvas en arrière-plan */
+        #chess-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3; /* Subtil */
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--primary-gold);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #cccccc;
+        }
+
+        .btn-cta {
+            padding: 15px 40px;
+            background-color: var(--primary-gold);
+            color: #000;
+            font-weight: 700;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            display: inline-block;
+        }
+
+        .btn-cta:hover {
+            background-color: var(--hover-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features {
+            padding: 100px 50px;
+            background-color: #141414;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: var(--dark-bg);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-gold);
+        }
+
+        .card h3 {
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* --- ANIMATIONS CSS --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            header { padding: 20px; }
+            nav { display: none; } /* Simplification pour mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Grand Maître</div>
+        <nav>
+            <ul>
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Cours</a></li>
+                <li><a href="#">Tournois</a></li>
+                <li><a href="#">Connexion</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <canvas id="chess-canvas"></canvas>
+
+        <div class="hero-content">
+            <h1>Maîtrisez l'Art de la <span>Stratégie</span></h1>
+            <p>Rejoignez la communauté d'élite. Apprenez les ouvertures légendaires, analysez vos parties et devenez imbattable.</p>
+            <a href="#" class="btn-cta">Commencer la partie</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="card">
+            <h3>Apprentissage</h3>
+            <p>Accédez à des centaines de leçons interactives créées par des Grands Maîtres internationaux.</p>
+        </div>
+        <div class="card">
+            <h3>Analyse IA</h3>
+            <p>Utilisez notre moteur d'échecs de pointe pour comprendre vos erreurs et améliorer votre jeu instantanément.</p>
+        </div>
+        <div class="card">
+            <h3>Communauté</h3>
+            <p>Affrontez des joueurs de votre niveau partout dans le monde et participez à des tournois quotidiens.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Grand Maître Échecs. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('chess-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Redimensionnement du canvas
+        let width, height;
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Symboles Unicode des pièces d'échecs
+        const chessPieces = ['♔', '♕', '♖', '♗', '♘', '♙'];
+        
+        // Configuration des particules
+        const particles = [];
+        const particleCount = 40; // Nombre de pièces flottantes
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 30 + 10; // Taille entre 10 et 40
+                this.speedX = (Math.random() - 0.5) * 0.5; // Vitesse lente horizontale
+                this.speedY = (Math.random() - 0.5) * 0.5; // Vitesse lente verticale
+                this.symbol = chessPieces[Math.floor(Math.random() * chessPieces.length)];
+                this.opacity = 0;
+                this.fadeState = 'in'; // 'in' ou 'out'
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+            }
+
+            update() {
+                // Mouvement
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+
+                // Gestion de l'opacité (Fade In / Fade Out)
+                if (this.fadeState === 'in') {
+                    this.opacity += 0.005;
+                    if (this.opacity >= 0.4) this.fadeState = 'out';
+                } else {
+                    this.opacity -= 0.005;
+                    if (this.opacity <= 0) this.reset();
+                }
+
+                // Sortie d'écran
+                if (this.x < -50 || this.x > width + 50 || this.y < -50 || this.y > height + 50) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.font = `${this.size}px serif`;
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`; // Couleur Or avec opacité
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.symbol, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        // Initialisation
+        function init() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Boucle d'animation
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Dessiner une grille subtile en fond (l'échiquier abstrait)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.lineWidth = 1;
+            const gridSize = 100;
+            
+            // Lignes verticales
+            for(let x = 0; x <= width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            // Lignes horizontales
+            for(let y = 0; y <= height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Mettre à jour et dessiner les pièces
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
